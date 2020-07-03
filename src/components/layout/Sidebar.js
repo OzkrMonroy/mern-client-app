@@ -1,5 +1,6 @@
 import React from 'react';
 import FormCreateProject from '../projects/FormCreateProject';
+import ProjectsList from '../projects/ProjectsList';
 
 const Sidebar = () => {
   return (
@@ -8,6 +9,7 @@ const Sidebar = () => {
       <FormCreateProject/>
       <div className="proyectos">
         <h2>Tus proyectos</h2>
+        <ProjectsList/>
       </div>
     </aside>
   );
