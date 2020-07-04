@@ -3,7 +3,7 @@ import ProjectsContext from "../../context/proyectos/projectsContext";
 
 const FormCreateProject = () => {
   const projectContext = useContext(ProjectsContext)
-  const {showForm, setShowForm} = projectContext
+  const {showForm, showError, setShowForm, setShowError, addProjectToList} = projectContext
 
   const [projectData, setProjectData] = useState({
     projectName: ''
@@ -18,6 +18,13 @@ const FormCreateProject = () => {
   const handleOnSubmit = e => {
     e.preventDefault()
     console.log(projectData)
+    if(projectData.projectName.trim() === ''){
+      setShowError()
+      return
+    }
+
+    addProjectToList(projectData)
+    setProjectData({projectName: ''})
   }
   const handleOnClick = () => {
     setShowForm()
@@ -45,6 +52,7 @@ const FormCreateProject = () => {
         />
       </form>)
     : null}
+    {showError ? <p className="mensaje error">El nombre del proyecto es obligatorio</p> : null}
     </Fragment>
   );
 };

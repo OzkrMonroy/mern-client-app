@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import ProjectsContext from '../../context/proyectos/projectsContext';
 
 const FormTask = () => {
+  const projectsContext = useContext(ProjectsContext)
+  const {selectedProject} = projectsContext
   const [taskData, setTaskData] = useState({
     taskName: ''
   })
@@ -11,6 +14,8 @@ const FormTask = () => {
       [e.target.name]: e.target.value
     })
   }
+  if(!selectedProject) return null
+
   return (
     <div className="formulario">
       <form>
