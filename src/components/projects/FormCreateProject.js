@@ -1,6 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
+import ProjectsContext from "../../context/proyectos/projectsContext";
 
 const FormCreateProject = () => {
+  const projectContext = useContext(ProjectsContext)
+  const {showForm, setShowForm} = projectContext
+
   const [projectData, setProjectData] = useState({
     projectName: ''
   })
@@ -15,13 +19,17 @@ const FormCreateProject = () => {
     e.preventDefault()
     console.log(projectData)
   }
+  const handleOnClick = () => {
+    setShowForm()
+  }
 
   return (
     <Fragment>
-      <button type="button" className="btn btn-primario btn-block">
+      <button type="button" className="btn btn-primario btn-block" onClick={handleOnClick}>
         Nuevo proyecto
       </button>
-      <form className="formulario-nuevo-proyecto" onSubmit={handleOnSubmit}>
+      {showForm ?
+        (<form className="formulario-nuevo-proyecto" onSubmit={handleOnSubmit}>
         <input
           type="text"
           className="input-text"
@@ -35,7 +43,8 @@ const FormCreateProject = () => {
           className="btn btn-primario btn-block"
           value="Agregar"
         />
-      </form>
+      </form>)
+    : null}
     </Fragment>
   );
 };

@@ -19,6 +19,7 @@ const TasksList = () => {
             ))
         }
       </ul>
+      <button type="button" className="btn">Eliminar proyecto &times;</button>
     </Fragment>
   );
 }
