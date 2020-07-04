@@ -1,10 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Project from './Project'
 import ProjectsContext from '../../context/proyectos/projectsContext';
 
 const ProjectsList = () => {
   const projectsContext = useContext(ProjectsContext)
-  const { projectsList } = projectsContext
+  const { projectsList, getProjectsFromApi } = projectsContext
+
+  useEffect(() => {
+    getProjectsFromApi()
+  }, [])
 
   if(projectsList.length === 0) return null
 
