@@ -1,17 +1,14 @@
 import React, { Fragment, useContext } from 'react'
 import Task from './Task';
 import ProjectsContext from '../../context/proyectos/projectsContext';
+import TasksContext from '../../context/tasks/tasksContext';
 
 const TasksList = () => {
   const projectsContext = useContext(ProjectsContext)
+  const tasksContext = useContext(TasksContext)
   const {selectedProject, deleteSelectedProject} = projectsContext
+  const {tasksProject} = tasksContext
 
-  const tasksProject = [
-    {taskName: 'Elegir plataforma', taskState: true, id: '1'},
-    {taskName: 'Elegir colores', taskState: false, id: '2'},
-    {taskName: 'Elegir plataformas de pago', taskState: false, id: '3'},
-    {taskName: 'Elegir hosting', taskState: true, id: '4'},
-  ]
   if(!selectedProject) return <h2>Selecciona un proyecto</h2>
 
   const [currentProject] = selectedProject

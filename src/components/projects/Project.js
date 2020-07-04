@@ -1,12 +1,17 @@
 import React, { useContext } from 'react'
 import ProjectsContext from '../../context/proyectos/projectsContext';
+import TasksContext from '../../context/tasks/tasksContext';
 
 const Project = ({project}) => {
   const projectsContext = useContext(ProjectsContext)
+  const tasksContext = useContext(TasksContext)
   const {setSelectedProject} = projectsContext
+  const {getTasksFromApi} = tasksContext
+  
 
   const handleOnClick = () => {
     setSelectedProject(project.id)
+    getTasksFromApi(project.id)
   }
   return (
     <li>
