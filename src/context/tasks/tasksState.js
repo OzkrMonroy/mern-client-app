@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import TasksReducer from './tasksReducer'
 import TasksContext from './tasksContext'
-import { GET_TASKS_PROJECT, ADD_TASK, VALIDATE_TASK } from '../../types'
+import { GET_TASKS_PROJECT, ADD_TASK, VALIDATE_TASK, DELETE_TASK, SET_TASK_STATE, SET_TASK_SELECTED, UPDATE_TASK } from '../../types'
 
 const TasksState = (props) => {
 
@@ -17,6 +17,7 @@ const TasksState = (props) => {
       {taskName: 'Elegir hosting', taskState: true, id: '8', projectId: '1'},
     ],
     tasksProject: null,
+    taskSelected: null,
     showError: false
   }
 
@@ -39,15 +40,45 @@ const TasksState = (props) => {
       type: VALIDATE_TASK
     })
   }
+  const deleteTask = taskId => {
+    dispatch({
+      type: DELETE_TASK,
+      payload: taskId
+    })
+  }
+  const setTaskState = task => {
+    dispatch({
+      type: SET_TASK_STATE,
+      payload: task
+    })
+  }
+  const setTaskSelected = task => {
+    dispatch({
+      type: SET_TASK_SELECTED,
+      payload: task
+    })
+  }
+  const updateTask = task => {
+    console.log(task)
+    dispatch({
+      type: UPDATE_TASK,
+      payload: task
+    })
+  }
 
   return (
     <TasksContext.Provider value={{
       tasks: state.tasks,
       tasksProject: state.tasksProject,
+      taskSelected: state.taskSelected,
       showError: state.showError,
       getTasksFromApi,
       addTask,
-      setErrorTask
+      deleteTask,
+      updateTask,
+      setErrorTask,
+      setTaskState,
+      setTaskSelected
     }}>
       {props.children}
     </TasksContext.Provider>
