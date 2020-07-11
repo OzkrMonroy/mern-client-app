@@ -13,3 +13,7 @@ export const DELETE_TASK = 'DELETE_TASK'
 export const VALIDATE_TASK = 'VALIDATE_TASK'
 export const SET_TASK_STATE = 'SET_TASK_STATE'
 export const SET_TASK_SELECTED = 'SET_TASK_SELECTED'
+
+// ALERTS
+export const SHOW_ALERT = 'SHOW_ALERT'
+export const HIDE_ALERT = 'HIDE_ALERT'
