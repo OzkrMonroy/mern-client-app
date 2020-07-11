@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom'
+import AlertsContext from '../../context/alerts/alertsContext';
 
 const Register = () => {
+  const alertsContext = useContext(AlertsContext)
+  const {showAlertMessage, showAlert} = alertsContext
+
   const [userData, setUserData] = useState({
     userName: '',
     userEmail: '',
@@ -17,16 +21,31 @@ const Register = () => {
   }
   const handleOnSubmit = e => {
     e.preventDefault()
-    if(userData.userEmail.trim() === '' || userData.userPassword.trim() === ''){
+    const {userEmail, userPassword, userName, userPasswordConfirm} = userData
+
+    if(userEmail.trim() === '' || userPassword.trim() === '' || userName.trim() === '' || userPasswordConfirm === ''){
       console.log('Inputs vacíos')
+      showAlert('Los campos son obligatorios', 'alerta-error');
+      return
+    }
+    if(userPassword.length < 6){
+      showAlert('La contraseña debe de tener mínimo seis caracteres', 'alerta-error');
+      return
+    }
+    if(userPassword !== userPasswordConfirm){
+      showAlert('Las contraseñas deben de coincidir', 'alerta-error');
       return
     }
 
+    showAlert('Todos los datos son correctos', 'alerta-ok');
     console.log(userData)
   }
 
   return (
     <div className="form-usuario">
+      {showAlertMessage ? 
+        (<div className={`alerta ${showAlertMessage.category}`}>{showAlertMessage.message}</div>)
+      : null}
       <div className="contenedor-form sombra-dark">
         <h1>Crear cuenta</h1>
         <form onSubmit={handleOnSubmit}>
