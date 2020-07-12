@@ -17,3 +17,11 @@ export const SET_TASK_SELECTED = 'SET_TASK_SELECTED'
 // ALERTS
 export const SHOW_ALERT = 'SHOW_ALERT'
 export const HIDE_ALERT = 'HIDE_ALERT'
+
+// AUTH
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+export const REGISTER_ERROR = 'REGISTER_ERROR'
+export const LOGIN_SUCESS = 'LOGIN_SUCESS'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const GET_USER = 'GET_USER'
+export const SIGN_OUT = 'SIGN_OUT'
