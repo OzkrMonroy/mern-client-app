@@ -17,7 +17,6 @@ const FormCreateProject = () => {
   }
   const handleOnSubmit = e => {
     e.preventDefault()
-    console.log(projectData)
     if(projectData.projectName.trim() === ''){
       setShowError()
       return

@@ -8,6 +8,7 @@ const AuthenticatedRoute = ({ component: Component, ...props }) => {
 
   useEffect(() => {
     getUserAuthenticatedData()
+    // eslint-disable-next-line
   }, [])
 
   return (

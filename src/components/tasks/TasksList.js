@@ -26,7 +26,7 @@ const TasksList = () => {
           ? (<li className="tarea"><p>No hay tarea</p></li>)
           : <TransitionGroup>
             {tasksProject.map(task => (
-              <CSSTransition key={task.id} timeout={500} classNames="tarea">
+              <CSSTransition key={task._id} timeout={500} classNames="tarea">
                 <Task task={task}/>
               </CSSTransition>
             ))}

@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import ProjectsContext from "../../context/proyectos/projectsContext";
 import TasksContext from "../../context/tasks/tasksContext";
 
@@ -11,10 +10,8 @@ const FormTask = () => {
   const {taskSelected, showError, addTask, setErrorTask, getTasksFromApi, updateTask } = tasksContext;
 
   const [taskData, setTaskData] = useState({
-    id: "",
     taskName: "",
-    projectId: "",
-    taskState: false
+    taskProject: "",
   });
 
   useEffect(() => {
@@ -38,21 +35,18 @@ const FormTask = () => {
     }
 
     if(taskSelected){
-      console.log('Editando..')
       updateTask(taskData)
     }else{
-      taskData.id = uuidv4();
-      taskData.projectId = selectedProject[0].id;
+      taskData.taskProject = selectedProject[0]._id;
   
       addTask(taskData);
     }
     
     setTaskData({
-      id: "",
       taskName: "",
-      projectId: "",
+      taskProject: "",
     });
-    getTasksFromApi(selectedProject[0].id)
+    getTasksFromApi(selectedProject[0]._id)
   };
 
   return (

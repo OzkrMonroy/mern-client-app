@@ -7,11 +7,11 @@ const Task = ({ task }) => {
   const { selectedProject } = projectsContext;
 
   const tasksContext = useContext(TasksContext)
-  const {deleteTask, getTasksFromApi, setTaskState, setTaskSelected} = tasksContext
+  const {deleteTask, getTasksFromApi, updateTask, setTaskSelected} = tasksContext
 
   const handleDeleteTask = () => {
-    deleteTask(task.id)
-    getTasksFromApi(selectedProject[0].id)
+    deleteTask(task._id, selectedProject[0]._id)
+    getTasksFromApi(selectedProject[0]._id)
   }
   const handleSetTaskState = () => {
     if(task.taskState){
@@ -19,7 +19,7 @@ const Task = ({ task }) => {
     }else {
       task.taskState = true
     }
-    setTaskState(task)
+    updateTask(task)
   }
   const handleSetTaskSelected = () => {
     setTaskSelected(task)

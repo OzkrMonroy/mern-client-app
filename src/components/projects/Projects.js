@@ -11,6 +11,7 @@ const Projects = () => {
 
   useEffect(() =>{
     getUserAuthenticatedData()
+    // eslint-disable-next-line
   }, [])
 
   return (
