@@ -1,21 +1,24 @@
 import React, { useReducer } from "react";
 import ProjectsContext from "./projectsContext";
 import ProjectReducer from "./projectReducer";
-import { v4 as uuidv4 } from 'uuid';
-import { SHOW_PROJECT_FORM, GET_PROJECTS_LIST, ADD_PROJECT, FORM_VALIDATE, SET_SELECTED_PROJECT, DELETE_PROJECT } from "../../types";
+import {
+  SHOW_PROJECT_FORM,
+  GET_PROJECTS_LIST,
+  ADD_PROJECT,
+  FORM_VALIDATE,
+  SET_SELECTED_PROJECT,
+  DELETE_PROJECT,
+  PROJECT_ERROR,
+} from "../../types";
+import axiosClient from "../../config/axios";
 
 const ProjectState = (props) => {
-  const projectsFromApi = [
-    { projectName: "Proyecto 1", id: "1" },
-    { projectName: "Proyecto 2", id: "2" },
-    { projectName: "Proyecto 3", id: "3" },
-  ]
-  
   const initialState = {
     showForm: false,
     showError: false,
     projectsList: [],
-    selectedProject: null
+    selectedProject: null,
+    messageError: null,
   };
 
   const [state, dispatch] = useReducer(ProjectReducer, initialState);
@@ -27,34 +30,69 @@ const ProjectState = (props) => {
   };
   const setShowError = () => {
     dispatch({
-      type: FORM_VALIDATE
-    })
-  }
-  const getProjectsFromApi = () => {
-    dispatch({
-      type: GET_PROJECTS_LIST,
-      payload: projectsFromApi
-    })
-  }
-  const addProjectToList = project => {
-    project.id = uuidv4()
-    dispatch({
-      type: ADD_PROJECT,
-      payload: project
-    })
-  }
-  const setSelectedProject = projectId => {
+      type: FORM_VALIDATE,
+    });
+  };
+  const getProjectsFromApi = async () => {
+    try {
+      const response = await axiosClient.get("/api/projects");
+      dispatch({
+        type: GET_PROJECTS_LIST,
+        payload: response.data.projectsList,
+      });
+    } catch (error) {
+      const alert = {
+        message: 'Ocurrión un error',
+        category: 'alerta-error'
+      }
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      })
+    }
+  };
+  const addProjectToList = async (project) => {
+    try {
+      const response = await axiosClient.post("/api/projects", project);
+      dispatch({
+        type: ADD_PROJECT,
+        payload: response.data,
+      });
+    } catch (error) {
+      const alert = {
+        message: 'Ocurrión un error',
+        category: 'alerta-error'
+      }
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      })
+    }
+  };
+  const setSelectedProject = (projectId) => {
     dispatch({
       type: SET_SELECTED_PROJECT,
-      payload: projectId
-    })
-  }
-  const deleteSelectedProject = projectId => {
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: projectId
-    })
-  }
+      payload: projectId,
+    });
+  };
+  const deleteSelectedProject = async (projectId) => {
+    try {
+      await axiosClient.delete(`/api/projects/${projectId}`);
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: projectId,
+      });
+    } catch (error) {
+      const alert = {
+        message: 'Ocurrión un error',
+        category: 'alerta-error'
+      }
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      })
+    }
+  };
 
   return (
     <ProjectsContext.Provider
@@ -63,12 +101,13 @@ const ProjectState = (props) => {
         showError: state.showError,
         projectsList: state.projectsList,
         selectedProject: state.selectedProject,
+        messageError: state.messageError,
         setShowForm,
         setShowError,
         getProjectsFromApi,
         addProjectToList,
         setSelectedProject,
-        deleteSelectedProject
+        deleteSelectedProject,
       }}
     >
       {props.children}

@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from 'react-router-dom'
+import AlertsContext from '../../context/alerts/alertsContext';
+import AuthContext from '../../context/authentication/authContext';
 
-const Login = () => {
+const Login = (props) => {
+  const authContext = useContext(AuthContext)
+  const {isAuthenticated, alertMessage, loginUser} = authContext
+
+  const alertsContext = useContext(AlertsContext)
+  const {showAlertMessage, showAlert} = alertsContext
+
   const [userData, setUserData] = useState({
     userEmail: '',
     userPassword: ''
   })
+
+  useEffect(() => {
+    if(isAuthenticated){
+      props.history.push('/projects')
+    }
+    if(alertMessage){
+      showAlert(alertMessage.message, alertMessage.category)
+    }
+  }, [isAuthenticated, alertMessage, props.history])
 
   const handleOnChange = e => {
     setUserData({
@@ -14,17 +31,21 @@ const Login = () => {
     })
   }
   const handleOnSubmit = e => {
+    const { userEmail, userPassword} = userData
     e.preventDefault()
-    if(userData.userEmail.trim() === '' || userData.userPassword.trim() === ''){
-      console.log('Inputs vacíos')
+    if(userEmail.trim() === '' || userPassword.trim() === ''){
+      showAlert('Todos los campos son obligatorios', 'alerta-error')
       return
     }
 
-    console.log(userData)
+    loginUser({ userEmail, userPassword})
   }
 
   return (
     <div className="form-usuario">
+      {showAlertMessage ? 
+        (<div className={`alerta ${showAlertMessage.category}`}>{showAlertMessage.message}</div>)
+      : null}
       <div className="contenedor-form sombra-dark">
         <h1>Iniciar sesión</h1>
         <form onSubmit={handleOnSubmit}>

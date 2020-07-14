@@ -1,14 +1,18 @@
-import React from 'react';
+import React from "react";
 
-const Toolbar = () => {
+const Toolbar = ({ user, signOut }) => {
   return (
     <header className="app-header">
-      <p className="nombre-usuario">Hola <span>Oscar Monroy</span></p>
+      <p className="nombre-usuario">
+        Hola <span>{user ? user.userName : ""}</span>
+      </p>
       <nav className="nav-principal">
-        <a href="#!">Cerrar sesión</a>
+        <button className="btn btn-blank cerrar-sesion" onClick={() => signOut()}>
+          Cerrar sesión
+        </button>
       </nav>
     </header>
   );
-}
- 
+};
+
 export default Toolbar;

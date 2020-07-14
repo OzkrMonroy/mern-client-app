@@ -1,10 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import AlertsContext from '../../context/alerts/alertsContext';
+import AuthContext from '../../context/authentication/authContext';
 
-const Register = () => {
+const Register = (props) => {
   const alertsContext = useContext(AlertsContext)
   const {showAlertMessage, showAlert} = alertsContext
+
+  const authContext = useContext(AuthContext)
+  const {isAuthenticated, alertMessage, registerUser} = authContext
 
   const [userData, setUserData] = useState({
     userName: '',
@@ -12,6 +16,15 @@ const Register = () => {
     userPassword: '',
     userPasswordConfirm: ''
   })
+
+  useEffect(() => {
+    if(isAuthenticated){
+      props.history.push('/projects')
+    }
+    if(alertMessage){
+      showAlert(alertMessage.message, alertMessage.category)
+    }
+  }, [isAuthenticated, alertMessage, props.history])
 
   const handleOnChange = e => {
     setUserData({
@@ -39,6 +52,11 @@ const Register = () => {
 
     showAlert('Todos los datos son correctos', 'alerta-ok');
     console.log(userData)
+    registerUser({
+      userName,
+      userEmail,
+      userPassword
+    })
   }
 
   return (

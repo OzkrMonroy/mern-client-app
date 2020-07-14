@@ -15,7 +15,7 @@ const TasksList = () => {
   const [currentProject] = selectedProject
 
   const handleOnClick = () => {
-    deleteSelectedProject(currentProject.id)
+    deleteSelectedProject(currentProject._id)
   }
 
   return (

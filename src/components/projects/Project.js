@@ -10,8 +10,8 @@ const Project = ({project}) => {
   
 
   const handleOnClick = () => {
-    setSelectedProject(project.id)
-    getTasksFromApi(project.id)
+    setSelectedProject(project._id)
+    getTasksFromApi(project._id)
   }
   return (
     <li>
